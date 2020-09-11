@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ap1
+  name: ap1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ap1
+  template:
+    metadata:
+      labels:
+        app: ap1
+    spec:
+      containers:
+      - image: g3mcbr/ap1
+        name: ap1
+        ports:
+          - name: http
+            containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ap1
+  labels:
+    app: ap1
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: ap1
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ap1-ingress
+#  annotations:
+#    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+      - ap1.donotpassgo.net
+    secretName: dnpg-tls
+  rules:
+  - host: ap1.donotpassgo.net
+    http:
+      paths:
+      - backend:
+          serviceName: ap1
+          servicePort: 80
+        pathType: ImplementationSpecific
