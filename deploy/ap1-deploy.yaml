@@ -15,11 +15,13 @@ spec:
         app: ap1
     spec:
       containers:
-      - image: g3mcbr/ap1
+      - image: miniregistry.donotpassgo.net/stage/ap1
         name: ap1
         ports:
           - name: http
             containerPort: 80
+      imagePullSecrets:
+      - name: mini-reg-cred
 ---
 apiVersion: v1
 kind: Service
