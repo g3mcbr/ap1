@@ -15,7 +15,7 @@ spec:
         app: ap1
     spec:
       containers:
-      - image: miniregistry.donotpassgo.net/ap1
+      - image: miniregistry.donotpassgo.net/ap1:%build.counter%
         name: ap1
         ports:
           - name: http
