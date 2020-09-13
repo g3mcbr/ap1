@@ -20,6 +20,8 @@ spec:
         ports:
           - name: http
             containerPort: 80
+      imagePullSecrets:
+      - name: mini-reg-cred
 ---
 apiVersion: v1
 kind: Service
